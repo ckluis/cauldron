@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cauldron — Zero-dependency Common Lisp Web Framework</title><meta name="description" content="A full-stack Common Lisp framework. One binary. No dependencies. No build tools. HTTP server, PostgreSQL driver, cryptography, LiveView, and admin interface — all from scratch."><style>
+/* Reset */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* Base */
+body{
+  background:#0a0a0f;color:#e8e6e0;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;
+  line-height:1.7;font-size:16px;
+}
+a{color:#c4841d;text-decoration:none;transition:color 0.15s}
+a:hover{color:#d9a044;text-decoration:underline}
+code{
+  font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;
+  font-size:0.85em;background:#13131f;padding:2px 6px;border-radius:3px;color:#e8cc65;
+}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* ---- Hero ---- */
+.hero{text-align:center;padding:96px 0 48px}
+.hero h1{
+  font-size:clamp(2.8rem,7vw,5rem);font-weight:800;
+  color:#c4841d;letter-spacing:-0.03em;margin-bottom:12px;
+  line-height:1.1;
+}
+.hero .tagline{font-size:1.35rem;color:#b0ada6;margin-bottom:8px;font-weight:400}
+.hero .subtitle{font-size:1rem;color:#706d66;max-width:520px;margin:0 auto}
+
+/* CTAs */
+.cta-row{display:flex;gap:16px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+.cta-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#c4841d;color:#0a0a0f;
+  padding:12px 28px;border-radius:6px;font-weight:600;font-size:1rem;
+  transition:background 0.15s,transform 0.1s;text-decoration:none;
+}
+.cta-primary:hover{background:#d9a044;transform:translateY(-1px);text-decoration:none;color:#0a0a0f}
+.cta-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid #333;color:#b0ada6;
+  padding:12px 28px;border-radius:6px;font-weight:500;font-size:1rem;
+  transition:border-color 0.15s,color 0.15s;text-decoration:none;
+}
+.cta-ghost:hover{border-color:#c4841d;color:#e8e6e0;text-decoration:none}
+
+/* ---- Stats bar ---- */
+.stats{
+  display:flex;justify-content:center;gap:48px;
+  padding:32px 0;border-top:1px solid #1a1a2e;border-bottom:1px solid #1a1a2e;
+  margin-bottom:80px;
+}
+.stat{text-align:center}
+.stat .number{font-size:2rem;font-weight:700;color:#c4841d;display:block;line-height:1.2}
+.stat .label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.12em;color:#706d66}
+
+/* ---- Sections ---- */
+.section{margin-bottom:80px}
+.section h2{
+  font-size:1.75rem;color:#e8e6e0;margin-bottom:8px;font-weight:700;
+  letter-spacing:-0.01em;
+}
+.section .section-sub{font-size:1rem;color:#706d66;margin-bottom:32px;max-width:640px}
+
+/* ---- Pitch ---- */
+.pitch{max-width:720px;margin:0 auto 80px;text-align:center}
+.pitch h2{font-size:1.75rem;color:#e8e6e0;margin-bottom:24px}
+.pitch p{color:#b0ada6;margin-bottom:16px;font-size:1.05rem;text-align:left}
+.pitch p:last-child{margin-bottom:0}
+
+/* ---- Feature sections (alternating) ---- */
+.feature{
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;
+  align-items:start;margin-bottom:72px;
+}
+.feature:nth-child(even){direction:rtl}
+.feature:nth-child(even) > *{direction:ltr}
+.feature-prose h3{font-size:1.35rem;color:#e8e6e0;margin-bottom:12px;font-weight:600}
+.feature-prose p{color:#b0ada6;font-size:0.95rem;margin-bottom:12px}
+.feature-prose .benefit{
+  color:#c4841d;font-size:0.9rem;font-weight:500;
+  border-left:2px solid #c4841d;padding-left:12px;margin-top:16px;
+}
+.feature-code{
+  background:#0c0c18;border:1px solid #1a1a2e;border-radius:6px;
+  padding:20px 24px;overflow-x:auto;
+}
+.feature-code pre{margin:0}
+.feature-code code{
+  font-size:0.82rem;line-height:1.65;background:none;padding:0;
+  color:#e8e6e0;display:block;white-space:pre;
+}
+
+/* Syntax highlighting (static classes) */
+.kw{color:#c4841d}     /* keywords, macros */
+.str{color:#6a9955}    /* strings */
+.sym{color:#d4c87a}    /* symbols */
+.cmt{color:#555;font-style:italic} /* comments */
+.fn{color:#dcdcaa}     /* function names */
+.type{color:#4ec9b0}   /* types */
+
+/* ---- Architecture stack ---- */
+.arch-stack{display:flex;flex-direction:column;gap:2px;max-width:720px;margin:0 auto}
+.arch-layer{
+  display:flex;align-items:center;padding:14px 20px;
+  border-radius:4px;position:relative;
+  transition:transform 0.15s ease;
+}
+.arch-layer:hover{transform:translateX(4px)}
+.arch-layer-num{
+  font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;
+  opacity:0.5;width:56px;flex-shrink:0;
+}
+.arch-layer-name{font-size:0.95rem;font-weight:600;flex:1}
+.arch-layer-modules{font-size:0.8rem;opacity:0.7;text-align:right}
+.arch-l0{background:#12100a;color:#8a7240;border-left:3px solid #8a7240}
+.arch-l1{background:#13110b;color:#9a8545;border-left:3px solid #9a8545}
+.arch-l2{background:#14120c;color:#aa924a;border-left:3px solid #aa924a}
+.arch-l3{background:#15130d;color:#b89e50;border-left:3px solid #b89e50}
+.arch-l4{background:#16140e;color:#c4a855;border-left:3px solid #c4a855}
+.arch-l5{background:#17150f;color:#d0b45a;border-left:3px solid #d0b45a}
+.arch-l6{background:#181610;color:#dcc060;border-left:3px solid #dcc060}
+.arch-l7{background:#191711;color:#e8cc65;border-left:3px solid #e8cc65}
+
+/* ---- Philosophy ---- */
+.philosophy{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.phil-item h3{font-size:1.1rem;color:#e8e6e0;margin-bottom:8px}
+.phil-item p{font-size:0.9rem;color:#b0ada6}
+
+/* ---- Quick start ---- */
+.quickstart{
+  background:#0c0c18;border:1px solid #1a1a2e;border-radius:6px;
+  padding:28px 32px;max-width:640px;margin:0 auto;
+}
+.quickstart code{
+  font-size:0.85rem;line-height:1.8;display:block;white-space:pre;
+  background:none;padding:0;color:#e8e6e0;
+}
+
+/* ---- Built-with showcase ---- */
+.showcase{
+  background:#0c0c18;border:1px solid #1a1a2e;border-radius:6px;
+  padding:32px;display:flex;gap:32px;align-items:center;
+}
+.showcase-text h3{font-size:1.25rem;color:#e8e6e0;margin-bottom:8px}
+.showcase-text p{font-size:0.9rem;color:#b0ada6;margin-bottom:12px}
+.showcase-text .showcase-stats{font-size:0.8rem;color:#706d66}
+.showcase-text a{font-weight:500}
+
+/* ---- Module grid ---- */
+.module-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;
+}
+.module-card{
+  background:#0c0c18;border:1px solid #1a1a2e;border-radius:4px;padding:16px 20px;
+}
+.module-card h3{font-size:0.95rem;color:#e8e6e0;margin-bottom:4px}
+.module-card p{font-size:0.82rem;color:#8a8880}
+.layer-badge{
+  display:inline-block;font-size:0.65rem;padding:2px 8px;border-radius:3px;
+  margin-bottom:6px;font-weight:600;
+}
+.layer-0{background:#1a1510;color:#8a7240}
+.layer-1{background:#1a1812;color:#9a8545}
+.layer-2{background:#1c1a12;color:#aa924a}
+.layer-3{background:#1e1c12;color:#b89e50}
+.layer-4{background:#201e12;color:#c4a855}
+.layer-5{background:#222012;color:#d0b45a}
+.layer-6{background:#242212;color:#dcc060}
+.layer-7{background:#262412;color:#e8cc65}
+
+/* ---- Benchmarks ---- */
+.bench-table{width:100%;border-collapse:collapse}
+.bench-table th{
+  text-align:left;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;
+  color:#706d66;padding:8px 12px;border-bottom:1px solid #1a1a2e;
+}
+.bench-table td{
+  padding:10px 12px;font-size:0.9rem;color:#b0ada6;border-bottom:1px solid #0f0f1a;
+}
+.bench-table td:first-child{color:#e8e6e0;font-weight:500}
+.bench-table td code{font-size:0.8rem}
+
+/* ---- Footer ---- */
+.footer{
+  text-align:center;padding:48px 0;
+  border-top:1px solid #1a1a2e;color:#706d66;font-size:0.85rem;
+}
+.footer p{margin-bottom:8px}
+.footer a{color:#c4841d}
+
+/* ---- Responsive ---- */
+@media(max-width:768px){
+  .hero{padding:64px 0 32px}
+  .stats{flex-direction:column;gap:16px;align-items:center}
+  .feature{grid-template-columns:1fr;gap:24px}
+  .feature:nth-child(even){direction:ltr}
+  .philosophy{grid-template-columns:1fr}
+  .showcase{flex-direction:column}
+  .module-grid{grid-template-columns:1fr}
+  .arch-layer{flex-direction:column;align-items:flex-start;gap:2px;padding:10px 16px}
+  .arch-layer-modules{text-align:left}
+}
+</style></head><body><div class="container"><div class="hero"><h1>Build web applications with zero operational debt</h1><p class="tagline">A full-stack Common Lisp framework. One binary. No dependencies. No build tools.</p><p class="subtitle">HTTP server, PostgreSQL driver, cryptography, LiveView, admin interface — everything from scratch in pure SBCL.</p><div class="cta-row"><a class="cta-primary" href="#quickstart">Get Started</a><a class="cta-ghost" href="https://github.com/ckluis/cauldron">View on GitHub</a></div></div><div class="stats"><div class="stat"><span class="number">0</span><span class="label">Dependencies</span></div><div class="stat"><span class="number">~17,000</span><span class="label">Lines of Code</span></div><div class="stat"><span class="number">21</span><span class="label">Modules</span></div><div class="stat"><span class="number">1,554</span><span class="label">Tests</span></div><div class="stat"><span class="number">1</span><span class="label">Binary</span></div></div><div class="pitch"><h2>What Is Cauldron?</h2><p>Cauldron is a full-stack web framework that implements everything from scratch in Common Lisp — HTTP server, PostgreSQL wire protocol, WebSocket, cryptography, query DSL, template engine, LiveView, and admin interface. Every function you call, you can read the source of.</p><p>This matters because modern web stacks are built on towers of dependencies you&#x27;ve never audited. One compromised package, one breaking change in a transitive dependency, one abandoned library — and your production system is at risk. Cauldron eliminates this entire class of problem. There is no supply chain.</p><p>Cauldron is for teams that value understanding over convenience — engineers who want to deploy a single binary with <code>save-lisp-and-die</code>, audit every line of their stack, and ship applications that will compile unchanged in ten years.</p></div><div class="section"><h2>What You Get</h2><p class="section-sub">Six frameworks worth of functionality. One dependency: SBCL.</p><div class="feature"><div class="feature-prose"><h3>Declare Your Schema, Get Everything</h3><p>Define tables in Lisp with <code>deftable</code>. Get CREATE TABLE DDL, metadata registration, index generation, and seed data — no hand-written SQL anywhere in the stack.</p><p>Query with Grimoire&#x27;s immutable builder DSL. Compose clauses, get parameterized SQL back. Type-safe, injection-proof, readable.</p><div class="benefit">One declaration drives DDL, migrations, admin UI, API validation, and agent tools.</div></div><div class="feature-code"><pre><code><span class=kw>(deftable</span> <span class=fn>contacts</span>
+  (<span class=sym>:columns</span>
+    (name    <span class=sym>:type</span> <span class=type>:text</span> <span class=sym>:not-null</span> t)
+    (email   <span class=sym>:type</span> <span class=type>:text</span> <span class=sym>:not-null</span> t <span class=sym>:unique</span> t)
+    (company <span class=sym>:type</span> <span class=type>:text</span>)
+    (stage   <span class=sym>:type</span> <span class=type>:text</span> <span class=sym>:default</span> <span class=str>"'lead'"</span>))
+  (<span class=sym>:indexes</span>
+    (email-idx <span class=sym>:columns</span> (email) <span class=sym>:unique</span> t)))
+
+<span class=cmt>;; Query with the Grimoire DSL</span>
+(<span class=kw>grimoire:select</span> <span class=sym>:contacts</span>
+  (grimoire:where <span class=sym>:like</span> <span class=sym>:name</span> <span class=str>"%smith%"</span>)
+  (grimoire:order-by <span class=sym>:created_at</span> <span class=sym>:desc</span>)
+  (grimoire:limit 20))</code></pre></div></div><div class="feature"><div class="feature-prose"><h3>Real-Time UI Without JavaScript</h3><p>Scry is Cauldron&#x27;s LiveView engine. Write your UI as server-side Lisp components. State changes are diffed on the server and patched on the client over WebSocket.</p><p>No React. No build step. No JavaScript framework. The ~180-line client runtime is auto-generated. You write Lisp; your users get real-time interactivity.</p><div class="benefit">Interactive UIs with server-side state. Debug in one language. Ship in one binary.</div></div><div class="feature-code"><pre><code><span class=kw>(defscry</span> <span class=fn>counter</span> (<span class=sym>:count</span> 0)
+  <span class=cmt>;; Server-side state update</span>
+  (<span class=sym>:on</span> <span class=str>"increment"</span> (state)
+    (list <span class=sym>:count</span> (1+ (getf state <span class=sym>:count</span>))))
+
+  <span class=cmt>;; Renders HTML from state</span>
+  (<span class=sym>:render</span> (state)
+    (<span class=kw>html</span>
+      (<span class=sym>:div</span>
+        (<span class=sym>:h1</span> (format nil <span class=str>"Count: ~D"</span>
+                   (getf state <span class=sym>:count</span>)))
+        (<span class=sym>:button</span> <span class=sym>:scry-click</span> <span class=str>"increment"</span>
+          <span class=str>"Add one"</span>)))))</code></pre></div></div><div class="feature"><div class="feature-prose"><h3>Autonomous Agents That Understand Your App</h3><p><code>defagent</code> declares an agent in one form: model, tools, triggers, memory, role, and token budget. Tools are auto-derived from your Reagent resources and integration specs.</p><p>Agents share your RBAC pipeline — they can&#x27;t exceed their declared role. Memory is persistent and scope-isolated. A2A delegation has cycle detection at depth 5.</p><div class="benefit">LLM agents that respect your authorization model and survive restarts.</div></div><div class="feature-code"><pre><code><span class=kw>(defagent</span> <span class=fn>support-bot</span>
+  (<span class=sym>:model</span> <span class=type>:claude-sonnet</span>)
+  (<span class=sym>:role</span> <span class=str>"Answer questions using the KB"</span>)
+  (<span class=sym>:tools</span>
+    (<span class=kw>from-resources</span> <span class=sym>:kb-articles</span>)
+    (<span class=kw>from-integration</span> <span class=sym>:slack</span>))
+  (<span class=sym>:triggers</span>
+    (<span class=sym>:http</span> <span class=str>"/api/chat"</span>)
+    (<span class=sym>:pubsub</span> <span class=sym>:new-ticket</span>))
+  (<span class=sym>:memory</span> <span class=sym>:persistent</span>)
+  (<span class=sym>:token-budget</span> 4000))</code></pre></div></div><div class="feature"><div class="feature-prose"><h3>Admin Interface Writes Itself</h3><p>Define resources with Reagent&#x27;s MOP metaclass. Forge auto-generates a complete admin interface — dashboard, paginated CRUD, SQL console, schema browser, audit log, integration health, and agent management.</p><p>No templates to write. No admin routes to configure. Add a resource, get an admin panel.</p><div class="benefit">Ship an admin interface on day one. Focus on your actual product.</div></div><div class="feature-code"><pre><code><span class=kw>(define-resource</span> <span class=fn>contact</span>
+  (<span class=sym>:attributes</span> name email company stage)
+  (<span class=sym>:policies</span>
+    (<span class=sym>:allow</span> <span class=type>:admin</span>  <span class=sym>:all</span>)
+    (<span class=sym>:allow</span> <span class=type>:member</span> <span class=sym>:read</span> <span class=sym>:update</span>)
+    (<span class=sym>:deny</span>  <span class=type>:viewer</span> <span class=sym>:delete</span>)))
+
+<span class=cmt>;; Forge auto-generates:</span>
+<span class=cmt>;;   /forge/dashboard</span>
+<span class=cmt>;;   /forge/contacts (list/show/new/edit)</span>
+<span class=cmt>;;   /forge/sql</span>
+<span class=cmt>;;   /forge/schema</span>
+<span class=cmt>;;   /forge/agents</span></code></pre></div></div><div class="feature"><div class="feature-prose"><h3>Industrial Cryptography, Zero Dependencies</h3><p>Every algorithm implemented from the RFC in pure Common Lisp. SHA-1, SHA-256, HMAC, bcrypt with configurable cost, PBKDF2 key derivation, AES-256-CBC with PKCS7 padding, and CSPRNG from <code>/dev/urandom</code>.</p><p>Constant-time comparison prevents timing attacks. AES key expansion is hoisted for performance. NIST known-vector validated.</p><div class="benefit">No OpenSSL. No FFI. Audit the crypto you ship.</div></div><div class="feature-code"><pre><code><span class=cmt>;; Hash</span>
+(crypto:<span class=fn>sha256</span> <span class=str>"hello"</span>)
+(crypto:<span class=fn>hmac-sha256</span> key message)
+
+<span class=cmt>;; Passwords</span>
+(crypto:<span class=fn>hash-password</span> <span class=str>"secret"</span>)    <span class=cmt>; bcrypt</span>
+(crypto:<span class=fn>verify-password</span> <span class=str>"secret"</span> hash)
+
+<span class=cmt>;; Encryption</span>
+(crypto:<span class=fn>aes-encrypt</span> key plaintext)  <span class=cmt>; AES-256-CBC</span>
+(crypto:<span class=fn>aes-decrypt</span> key ciphertext)
+
+<span class=cmt>;; Tokens</span>
+(crypto:<span class=fn>generate-token</span>)  <span class=cmt>; 64-char hex</span></code></pre></div></div><div class="feature"><div class="feature-prose"><h3>External APIs Without Boilerplate</h3><p><code>defintegration</code> declares external API endpoints, auth patterns, and webhook handlers in one form. Credentials are AES-256 encrypted with PBKDF2 key derivation and cascading scope resolution.</p><p>Built-in retry with exponential backoff, per-integration rate limiting, health tracking, and HMAC-SHA256 webhook verification.</p><div class="benefit">First-class external integrations. Encrypted credentials. Observable health.</div></div><div class="feature-code"><pre><code><span class=kw>(defintegration</span> <span class=fn>stripe</span>
+  (<span class=sym>:base-url</span> <span class=str>"https://api.stripe.com/v1"</span>)
+  (<span class=sym>:auth</span> <span class=sym>:bearer</span> <span class=sym>:key</span> <span class=str>"stripe-api-key"</span>)
+  (<span class=sym>:endpoints</span>
+    (<span class=sym>:create-charge</span> <span class=sym>:post</span> <span class=str>"/charges"</span>
+      <span class=sym>:params</span> (amount currency source)))
+  (<span class=sym>:webhooks</span>
+    (<span class=sym>:payment-received</span>
+      <span class=sym>:events</span> (<span class=str>"charge.succeeded"</span>))))</code></pre></div></div></div><div class="section"><h2>Architecture</h2><p class="section-sub">Eight layers. Each depends only on layers below it. No upward or lateral dependencies.</p><div class="arch-stack"><div class="arch-layer arch-l7"><span class="arch-layer-num">Layer 7</span><span class="arch-layer-name">CLI</span><span class="arch-layer-modules">Command dispatch, fuzzy matching, DB admin</span></div><div class="arch-layer arch-l6"><span class="arch-layer-num">Layer 6</span><span class="arch-layer-name">Forge</span><span class="arch-layer-modules">Auto-generated admin interface + agent dashboard</span></div><div class="arch-layer arch-l5"><span class="arch-layer-num">Layer 5</span><span class="arch-layer-name">Scry + Ether + Integration + Agent</span><span class="arch-layer-modules">LiveView, PubSub, external APIs, autonomous agents</span></div><div class="arch-layer arch-l4"><span class="arch-layer-num">Layer 4</span><span class="arch-layer-name">Reagent</span><span class="arch-layer-modules">MOP resource metaclass, policies, relationships</span></div><div class="arch-layer arch-l3"><span class="arch-layer-num">Layer 3</span><span class="arch-layer-name">Grimoire + Alembic + Crucible + LLM</span><span class="arch-layer-modules">Query DSL, HTML templates, trie router, AI provider protocol</span></div><div class="arch-layer arch-l2"><span class="arch-layer-num">Layer 2</span><span class="arch-layer-name">HTTP + WebSocket + DB</span><span class="arch-layer-modules">Server, RFC 6455, PostgreSQL wire protocol v3</span></div><div class="arch-layer arch-l1"><span class="arch-layer-num">Layer 1</span><span class="arch-layer-name">Crypto + JSON + HTTP Client + Logging</span><span class="arch-layer-modules">SHA, HMAC, bcrypt, AES-256, base64, JSON, outbound HTTP, canonical logs</span></div><div class="arch-layer arch-l0"><span class="arch-layer-num">Layer 0</span><span class="arch-layer-name">Runtime</span><span class="arch-layer-modules">Threads, sockets, queues, thread pool, timer, config, shutdown</span></div></div></div><div class="section"><h2>Why Cauldron?</h2><p class="section-sub">Philosophy, not feature comparison.</p><div class="philosophy"><div class="phil-item"><h3>Auditability</h3><p>Read every line of your stack. When something breaks at 3am, there&#x27;s no mystery dependency six layers deep. You wrote it, or you can read what did.</p></div><div class="phil-item"><h3>Stability</h3><p>No upstream breakage. No Dependabot alerts. No breaking changes in transitive dependencies you didn&#x27;t know existed. Your code compiles the same in ten years.</p></div><div class="phil-item"><h3>Deployment</h3><p><code>save-lisp-and-die</code> produces a single binary. Copy it to a server. Run it. No containers, no orchestration, no runtime to install.</p></div><div class="phil-item"><h3>Learning</h3><p>Understand HTTP, PostgreSQL, WebSocket, and cryptography by reading working implementations — not documentation about abstractions over abstractions.</p></div></div></div><div class="section" id="quickstart"><h2>Quick Start</h2><div class="quickstart"><code><span class=cmt># Prerequisites: SBCL (Steel Bank Common Lisp)</span>
+
+git clone https://github.com/ckluis/cauldron.git
+cd cauldron
+sbcl --script run-tests.lisp --unit    <span class=cmt># 1,554 tests</span>
+sbcl --script site/generate.lisp       <span class=cmt># dogfoods Alembic</span></code></div></div><div class="section"><h2>Built With Cauldron</h2><div class="showcase"><div class="showcase-text"><h3><a href="https://github.com/ckluis/crucible-works">Crucible Works</a></h3><p>A multi-tenant business platform — CRM, CMS, knowledge base, billing, email, newsletters, autonomous agents — built entirely on Cauldron. The reference implementation that proves the framework works at application scale.</p><p class="showcase-stats">69 source files · 540 tests · Multi-tenant with per-company schemas</p><p><a href="https://github.com/ckluis/crucible-works">View repository</a></p></div></div></div><div class="section"><h2>All 21 Modules</h2><div class="module-grid"><div class="module-card"><span class="layer-badge layer-0">Layer 0</span><h3>Runtime</h3><p>Threads, sockets, queues, thread pool, timer, config, graceful shutdown</p></div><div class="module-card"><span class="layer-badge layer-1">Layer 1</span><h3>Crypto</h3><p>SHA-1/256, HMAC, bcrypt, PBKDF2, AES-256-CBC, CSPRNG, base64</p></div><div class="module-card"><span class="layer-badge layer-1">Layer 1</span><h3>JSON</h3><p>Streaming encoder and decoder</p></div><div class="module-card"><span class="layer-badge layer-1">Layer 1</span><h3>HTTP Client</h3><p>Outbound HTTP/HTTPS via curl subprocess</p></div><div class="module-card"><span class="layer-badge layer-1">Layer 1</span><h3>Logging</h3><p>Stripe-style canonical structured log lines</p></div><div class="module-card"><span class="layer-badge layer-2">Layer 2</span><h3>Oracle</h3><p>Condition system, hooks, recovery strategies</p></div><div class="module-card"><span class="layer-badge layer-2">Layer 2</span><h3>HTTP</h3><p>HTTP/1.1 server with thread-pool, multipart, gzip</p></div><div class="module-card"><span class="layer-badge layer-2">Layer 2</span><h3>WebSocket</h3><p>RFC 6455 frames, upgrade, fragmentation</p></div><div class="module-card"><span class="layer-badge layer-2">Layer 2</span><h3>DB</h3><p>PostgreSQL wire protocol v3, SCRAM-SHA-256, connection pooling</p></div><div class="module-card"><span class="layer-badge layer-3">Layer 3</span><h3>Grimoire</h3><p>Query DSL, changesets, migrations, deftable DDL, full-text search</p></div><div class="module-card"><span class="layer-badge layer-3">Layer 3</span><h3>Alembic</h3><p>S-expression HTML template engine with SEO helpers</p></div><div class="module-card"><span class="layer-badge layer-3">Layer 3</span><h3>Crucible</h3><p>Trie router, pipelines, auth, sessions, API keys, billing, uploads, security</p></div><div class="module-card"><span class="layer-badge layer-3">Layer 3</span><h3>LLM</h3><p>Provider protocol (Claude/Ollama/Mock), tool system, agent loop</p></div><div class="module-card"><span class="layer-badge layer-4">Layer 4</span><h3>Reagent</h3><p>MOP-based resource metaclass with policies and relationships</p></div><div class="module-card"><span class="layer-badge layer-5">Layer 5</span><h3>Ether</h3><p>PubSub with PostgreSQL LISTEN/NOTIFY bridge</p></div><div class="module-card"><span class="layer-badge layer-5">Layer 5</span><h3>Integration</h3><p>Declarative external integrations, encrypted credentials, webhook delivery</p></div><div class="module-card"><span class="layer-badge layer-5">Layer 5</span><h3>Agent</h3><p>Declarative autonomous agents (defagent), A2A, tool caching, SSE</p></div><div class="module-card"><span class="layer-badge layer-5">Layer 5</span><h3>Scry</h3><p>LiveView engine with virtual DOM diff over WebSocket</p></div><div class="module-card"><span class="layer-badge layer-6">Layer 6</span><h3>Forge</h3><p>Auto-generated admin: CRUD, SQL console, schema browser, audit, agents</p></div><div class="module-card"><span class="layer-badge layer-7">Layer 7</span><h3>CLI</h3><p>Command dispatch, progressive help, fuzzy matching, DB admin</p></div></div></div><div class="footer"><p><a href="https://github.com/ckluis/cauldron">GitHub</a> · <a href="/changelog/">Changelog</a> · MIT License</p><p>This site was generated by Cauldron&#x27;s own Alembic engine — the proof is in the source.</p></div></div></body></html>

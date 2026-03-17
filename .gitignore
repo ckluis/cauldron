@@ -1,0 +1,7 @@
+*.fasl
+*.lx64fsl
+*.dx64fsl
+*~
+\#*\#
+.DS_Store
+data/

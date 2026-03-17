@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>0.1.0 — Cauldron</title><style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#0a0a0f;color:#e8e6e0;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;
+  line-height:1.6;
+}
+a{color:#c4841d;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* Header */
+.changelog-header{text-align:center;padding:64px 0 48px;border-bottom:1px solid #1a1a2e;margin-bottom:48px}
+.changelog-header h1{font-size:2.5rem;font-weight:700;color:#c4841d;letter-spacing:-0.02em;margin-bottom:8px}
+.changelog-header .subtitle{font-size:1rem;color:#706d66}
+.changelog-header .back{display:inline-block;margin-bottom:24px;font-size:0.9rem;color:#706d66}
+.changelog-header .back:hover{color:#c4841d}
+
+/* Release list (index) */
+.release-list{list-style:none;padding:0}
+.release-item{
+  display:flex;align-items:baseline;gap:16px;
+  padding:20px 0;border-bottom:1px solid #1a1a2e;
+}
+.release-item:first-child{padding-top:0}
+.release-item .version-link{
+  font-size:1.25rem;font-weight:700;color:#e8e6e0;
+  min-width:80px;flex-shrink:0;
+}
+.release-item .version-link:hover{color:#c4841d}
+.release-item .summary{font-size:0.95rem;color:#b0ada6;flex:1}
+.release-item .date{font-size:0.85rem;color:#706d66;flex-shrink:0}
+
+/* Version block (detail pages) */
+.version{margin-bottom:56px}
+.version-heading{
+  display:flex;align-items:baseline;gap:16px;
+  margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid #1a1a2e;
+}
+.version-heading h2{font-size:1.75rem;font-weight:700;color:#e8e6e0}
+.version-heading .date{font-size:0.9rem;color:#706d66}
+
+/* Category */
+.category{margin-bottom:32px}
+.category h3{
+  font-size:1.1rem;font-weight:600;color:#c4841d;
+  margin-bottom:16px;text-transform:uppercase;letter-spacing:0.05em;
+}
+
+/* Layer group */
+.layer-group{margin-bottom:20px}
+.layer-group h4{font-size:0.95rem;font-weight:600;color:#b0ada6;margin-bottom:8px}
+.layer-group ul{list-style:none;padding-left:0}
+.layer-group li{
+  position:relative;padding-left:20px;margin-bottom:6px;
+  font-size:0.9rem;color:#b0ada6;
+}
+.layer-group li::before{
+  content:'';position:absolute;left:0;top:10px;
+  width:6px;height:6px;border-radius:50%;background:#c4841d;
+}
+.layer-group li code{
+  font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;
+  font-size:0.8rem;background:#1a1a2e;padding:1px 6px;border-radius:3px;color:#e8e6e0;
+}
+
+/* Phase badge */
+.phase{
+  display:inline-block;font-size:0.65rem;padding:1px 6px;border-radius:3px;
+  background:#1a1510;color:#8a7240;margin-left:8px;font-weight:600;vertical-align:middle;
+}
+
+/* Fix items */
+.fix-group{margin-bottom:20px}
+.fix-group h4{font-size:0.95rem;font-weight:600;color:#b0ada6;margin-bottom:8px}
+.fix-group ul{list-style:none;padding-left:0}
+.fix-group li{
+  position:relative;padding-left:20px;margin-bottom:6px;
+  font-size:0.9rem;color:#b0ada6;
+}
+.fix-group li::before{
+  content:'';position:absolute;left:0;top:10px;
+  width:6px;height:6px;border-radius:50%;background:#706d66;
+}
+.fix-group li code{
+  font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;
+  font-size:0.8rem;background:#1a1a2e;padding:1px 6px;border-radius:3px;color:#e8e6e0;
+}
+
+/* Nav between releases */
+.release-nav{
+  display:flex;justify-content:space-between;
+  padding:24px 0;margin-top:32px;border-top:1px solid #1a1a2e;
+}
+.release-nav a{font-size:0.9rem;color:#706d66}
+.release-nav a:hover{color:#c4841d}
+
+/* Footer */
+.footer{
+  text-align:center;padding:48px 0;
+  border-top:1px solid #1a1a2e;color:#706d66;font-size:0.85rem;
+}
+.footer p{margin-bottom:8px}
+.footer a{color:#c4841d}
+
+@media(max-width:640px){
+  .changelog-header{padding:40px 0 32px}
+  .changelog-header h1{font-size:2rem}
+  .version-heading{flex-direction:column;gap:4px}
+  .release-item{flex-direction:column;gap:4px}
+}
+</style></head><body><div class="container"><div class="changelog-header"><a class="back" href="/changelog/">← All Releases</a><h1>Cauldron 0.1.0</h1><p class="subtitle">Initial framework — 14 modules across 7 layers, 817 tests, zero dependencies</p></div><div class="version"><div class="version-heading"><h2>0.1.0</h2><span class="date">2026-03-13</span></div><div class="category"><h3>Added</h3><div class="layer-group"><h4>Full Framework<span class="phase">Phases 1–10</span></h4><ul><li>Layer 0: Runtime — threads, sockets, queues, timer</li><li>Layer 1: Crypto — SHA-1/256, HMAC, bcrypt, PBKDF2, CSPRNG, base64</li><li>Layer 1: JSON — streaming encoder/decoder</li><li>Layer 2: Oracle — conditions, hooks, recovery strategies</li><li>Layer 2: HTTP/1.1 server with thread pool</li><li>Layer 2: WebSocket RFC 6455</li><li>Layer 2: PostgreSQL wire protocol v3 with SCRAM-SHA-256</li><li>Layer 3: Grimoire — query DSL, changesets, migrations</li><li>Layer 3: Alembic — S-expression HTML templates</li><li>Layer 3: Crucible — trie router, pipelines, plugs</li><li>Layer 4: Reagent — MOP resource metaclass</li><li>Layer 5: Ether — PubSub with PG LISTEN/NOTIFY</li><li>Layer 5: Scry — LiveView with virtual DOM diff</li><li>Layer 6: Forge — auto-generated admin interface</li><li>Custom test runner, CLI orchestrator, 817 tests</li></ul></div><div class="category"><h3>Fixed</h3><div class="fix-group"><h4>Phases 1–8</h4><ul><li><code>diff-attrs</code> reversed plist ordering</li><li><code>audit.lisp</code> package lock violation on SBCL</li><li>Recovery <code>use-value</code> not returning the supplied value</li><li>Scry transport type dispatch</li><li>Forge router <code>let</code>/<code>let*</code> binding</li></ul></div></div></div></div><div class="release-nav"><span></span><a href="/changelog/0-2-0-framework-completion">0.2.0 →</a></div><div class="footer"><p>MIT License · <a href="/changelog/">All Releases</a> · <a href="/">Cauldron</a></p></div></div></body></html>

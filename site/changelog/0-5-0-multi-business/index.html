@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>0.5.0 — Cauldron</title><style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#0a0a0f;color:#e8e6e0;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;
+  line-height:1.6;
+}
+a{color:#c4841d;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* Header */
+.changelog-header{text-align:center;padding:64px 0 48px;border-bottom:1px solid #1a1a2e;margin-bottom:48px}
+.changelog-header h1{font-size:2.5rem;font-weight:700;color:#c4841d;letter-spacing:-0.02em;margin-bottom:8px}
+.changelog-header .subtitle{font-size:1rem;color:#706d66}
+.changelog-header .back{display:inline-block;margin-bottom:24px;font-size:0.9rem;color:#706d66}
+.changelog-header .back:hover{color:#c4841d}
+
+/* Release list (index) */
+.release-list{list-style:none;padding:0}
+.release-item{
+  display:flex;align-items:baseline;gap:16px;
+  padding:20px 0;border-bottom:1px solid #1a1a2e;
+}
+.release-item:first-child{padding-top:0}
+.release-item .version-link{
+  font-size:1.25rem;font-weight:700;color:#e8e6e0;
+  min-width:80px;flex-shrink:0;
+}
+.release-item .version-link:hover{color:#c4841d}
+.release-item .summary{font-size:0.95rem;color:#b0ada6;flex:1}
+.release-item .date{font-size:0.85rem;color:#706d66;flex-shrink:0}
+
+/* Version block (detail pages) */
+.version{margin-bottom:56px}
+.version-heading{
+  display:flex;align-items:baseline;gap:16px;
+  margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid #1a1a2e;
+}
+.version-heading h2{font-size:1.75rem;font-weight:700;color:#e8e6e0}
+.version-heading .date{font-size:0.9rem;color:#706d66}
+
+/* Category */
+.category{margin-bottom:32px}
+.category h3{
+  font-size:1.1rem;font-weight:600;color:#c4841d;
+  margin-bottom:16px;text-transform:uppercase;letter-spacing:0.05em;
+}
+
+/* Layer group */
+.layer-group{margin-bottom:20px}
+.layer-group h4{font-size:0.95rem;font-weight:600;color:#b0ada6;margin-bottom:8px}
+.layer-group ul{list-style:none;padding-left:0}
+.layer-group li{
+  position:relative;padding-left:20px;margin-bottom:6px;
+  font-size:0.9rem;color:#b0ada6;
+}
+.layer-group li::before{
+  content:'';position:absolute;left:0;top:10px;
+  width:6px;height:6px;border-radius:50%;background:#c4841d;
+}
+.layer-group li code{
+  font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;
+  font-size:0.8rem;background:#1a1a2e;padding:1px 6px;border-radius:3px;color:#e8e6e0;
+}
+
+/* Phase badge */
+.phase{
+  display:inline-block;font-size:0.65rem;padding:1px 6px;border-radius:3px;
+  background:#1a1510;color:#8a7240;margin-left:8px;font-weight:600;vertical-align:middle;
+}
+
+/* Fix items */
+.fix-group{margin-bottom:20px}
+.fix-group h4{font-size:0.95rem;font-weight:600;color:#b0ada6;margin-bottom:8px}
+.fix-group ul{list-style:none;padding-left:0}
+.fix-group li{
+  position:relative;padding-left:20px;margin-bottom:6px;
+  font-size:0.9rem;color:#b0ada6;
+}
+.fix-group li::before{
+  content:'';position:absolute;left:0;top:10px;
+  width:6px;height:6px;border-radius:50%;background:#706d66;
+}
+.fix-group li code{
+  font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;
+  font-size:0.8rem;background:#1a1a2e;padding:1px 6px;border-radius:3px;color:#e8e6e0;
+}
+
+/* Nav between releases */
+.release-nav{
+  display:flex;justify-content:space-between;
+  padding:24px 0;margin-top:32px;border-top:1px solid #1a1a2e;
+}
+.release-nav a{font-size:0.9rem;color:#706d66}
+.release-nav a:hover{color:#c4841d}
+
+/* Footer */
+.footer{
+  text-align:center;padding:48px 0;
+  border-top:1px solid #1a1a2e;color:#706d66;font-size:0.85rem;
+}
+.footer p{margin-bottom:8px}
+.footer a{color:#c4841d}
+
+@media(max-width:640px){
+  .changelog-header{padding:40px 0 32px}
+  .changelog-header h1{font-size:2rem}
+  .version-heading{flex-direction:column;gap:4px}
+  .release-item{flex-direction:column;gap:4px}
+}
+</style></head><body><div class="container"><div class="changelog-header"><a class="back" href="/changelog/">← All Releases</a><h1>Cauldron 0.5.0</h1><p class="subtitle">Multi-business platform — declarative DDL, RBAC, dynamic UI, CMS, knowledge base + LLM API</p></div><div class="version"><div class="version-heading"><h2>0.5.0</h2><span class="date">2026-03-15</span></div><div class="category"><h3>Refactored</h3><div class="layer-group"><h4>Core Framework Refactoring<span class="phase">Phase 34</span></h4><ul><li>Moved 17 generic utilities from app layer to framework: things every Cauldron app needs now live in core</li><li>New <code>cauldron.http-client</code> module: <code>http-post-json</code> for outbound HTTP via curl subprocess</li><li>New <code>cauldron.llm</code> module: provider protocol (Claude, Ollama, Mock), tool system, conversation CRUD, <code>agent-turn</code> loop</li><li><code>cauldron.runtime:ht</code> and <code>ht-get</code> — hash-table builder + polymorphic getter (works on hash-tables and alists)</li><li>API response helpers moved to <code>cauldron.crucible</code>: <code>json-response</code>, <code>json-error</code>, <code>wrap-api-response</code>, <code>role-allows-p</code></li><li>Generic plugs moved to <code>cauldron.crucible</code>: <code>plug-json-content-type</code>, <code>plug-html-content-type</code>, <code>redirect-with-flash</code></li><li>Module count: 15 → 17 | Test count: 1,446 → 1,487 (41 new tests)</li></ul></div><div class="layer-group"><h4>Framework Hardening<span class="phase">Phase 35</span></h4><ul><li>Centralized config: <code>get-env</code>, <code>defconfig</code> macro, <code>validate-config</code>, <code>config-summary</code> with secret masking</li><li>Request logging: <code>plug-request-log</code> + <code>log-request-completion</code> with method/path/status/duration</li><li>CORS middleware: <code>make-plug-cors</code> with preflight handling, origin matching, credentials, expose-headers</li><li>Rate limiting: <code>make-plug-rate-limit</code> per-IP tracking with sliding window, 429 + Retry-After</li><li>Response compression: pure-CL DEFLATE/gzip (RFC 1951/1952), <code>compress-response</code> plug with content-type awareness</li><li>Test count: 1,487 → 1,531 (44 new tests) | LOC: ~20,700 → ~21,200</li></ul></div><div class="layer-group"><h4>User Lifecycle<span class="phase">Phase 36</span></h4><ul><li>Password reset flow: forgot-password → email with token → reset form → password update</li><li>Email verification: verification on signup, resend link, soft enforcement via dashboard banner</li><li>User settings page: profile editing, password change</li><li>Team invitations: admin invite → email → accept/signup flow</li><li>Test count: 1,531 → 1,584 (53 new tests) | LOC: ~21,200 → ~22,200</li></ul></div><div class="layer-group"><h4>Canonical Logging + HTTP Client<span class="phase">Phase 37</span></h4><ul><li>New <code>cauldron.logging</code> module: Stripe-style canonical log lines</li><li>Enhanced HTTP client: GET/POST/PUT/PATCH/DELETE with timeout</li><li>Bridge integration: auto request_id generation, canonical log emission per request</li><li>Test count: 1,584 → 1,633 (49 new tests) | LOC: ~22,200 → ~22,600</li></ul></div><div class="layer-group"><h4>Integration Protocol<span class="phase">Phase 38</span></h4><ul><li>New <code>cauldron.integration</code> module: declarative <code>defintegration</code> macro</li><li>Full AES-256-CBC encryption with NIST known-vector validation</li><li>Encrypted credential store with cascading scope resolution</li><li>Integration client with retry, rate limiting, health tracking</li><li>Webhook verification with HMAC-SHA256</li><li>Test count: 1,633 → 1,668 (35 new tests) | Modules: 18 → 19</li></ul></div><div class="layer-group"><h4>Declarative Autonomous Agents<span class="phase">Phase 39</span></h4><ul><li><code>defagent</code> macro: model, tools, triggers, memory, role in one form</li><li>Auto-tool derivation from Reagent resources and integration specs</li><li>Persistent agent memory with scope isolation</li><li>Multi-trigger system: PubSub, schedule, HTTP, webhook</li><li>Test count: 1,689 → 1,757 (68 new tests) | Modules: 19 → 20</li></ul></div><div class="layer-group"><h4>Agent Hardening<span class="phase">Phase 39B</span></h4><ul><li>Token budgets, A2A delegation with cycle detection, tool caching with TTL</li><li>SSE streaming, Forge agent dashboard, CLI agent commands</li><li>Test count: 1,757 → 1,799 (42 new tests) | Modules: 20 → 21</li></ul></div><div class="layer-group"><h4>API Keys + Webhook Delivery + Billing + Uploads + Search + Activity + Security<span class="phase">Phases 40–45</span></h4><ul><li>API key generation with SHA-256 hashing, scope-based access control</li><li>Webhook delivery with HMAC signing and exponential backoff</li><li>Subscription billing: state machine, metered usage, 402 gating</li><li>File uploads with UUID paths, MIME validation, polymorphic attachments</li><li>PostgreSQL full-text search: tsvector, GIN indexes, cross-table search</li><li>Activity feed: actor/action/target tracking with PubSub integration</li><li>Security: CSP, HSTS, IP allowlist, request size limits, session fixation protection</li><li>Test count: 1,799 → 1,970 (171 new tests)</li></ul></div></div><div class="category"><h3>Added</h3><div class="layer-group"><h4>Application Platform<span class="phase">Phases 21–33</span></h4><ul><li><code>deftable</code> macro: declarative table definitions generating CREATE TABLE DDL</li><li>RBAC: owner &gt; admin &gt; member &gt; viewer hierarchy</li><li>Metadata-driven forms and tables — no hand-coded views per object</li><li>CMS template with Markdown rendering, CRM template, ecommerce, project management</li><li>Knowledge base + LLM integration with context building</li><li>Scry LiveView: client JS, real-time components, PubSub wiring</li><li>Self-documenting hypermedia API with _links and _actions</li><li>Static site generation with islands architecture</li><li>Schema-level object relations with cascading deletes</li><li>Dual agent runtime: platform (CLI) and tenant (web, RBAC-enforced)</li><li>Customer acquisition: domains, SEO, email, notifications, newsletters</li></ul></div></div></div><div class="release-nav"><a href="/changelog/0-4-0-web-ui">← 0.4.0</a><span></span></div><div class="footer"><p>MIT License · <a href="/changelog/">All Releases</a> · <a href="/">Cauldron</a></p></div></div></body></html>
